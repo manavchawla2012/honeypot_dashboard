@@ -1,0 +1,38 @@
+html[data-theme='dark'] {
+  --border-color: #fff
+}
+
+html[data-theme='light'] {
+  --border-color: black
+}
+
+
+.graph_div {
+  border: 1px solid var(--border-color);
+  height: 550px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.graph {
+  padding: 20px;
+  height: 500px;
+}
+
+.heading {
+  color: var(--border-color);
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 20px;
+  height: 50px;
+  padding-top: 10px;
+}
+
+.heading .numbering {
+  float: left;
+  font-size: 14px;
+}
+
+.input-daterange {
+  width: fit-content !important;
+}

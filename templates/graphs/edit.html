@@ -1,0 +1,67 @@
+{% extends "Layouts/graph_form.html" %}
+{% block title%}Edit Graph{% endblock %}
+{% load crispy_forms_tags %}
+{% block html_inner %}
+    {% csrf_token %}
+    <div class="container col-md-4 top-padding">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span>Edit Graph</span>
+                        <span style="float: right;"> <a href="{% url "graphs:list" %}"><i
+                                class="fa fa-chevron-left fa-fw"></i>Back</a> </span>
+                    </div>
+                    <div class="padding-10 margin-top-10">
+                        <form method="post" href="{% url "graphs:edit" id %}" id="graph-form">
+                            <input class="hidden" name="common" type="hidden" value="">
+                            {{ baseForm|crispy }}
+                            <div class="graph-form-load">
+                                {% include "graphs/forms/forms.html" %}
+                            </div>
+                            <div class="btn btn-primary btn-block btn-medium" id="visualize_graph">Visualize</div>
+                            <div class="btn btn-primary btn-block btn-medium hide" id="update_graph">Update</div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8 graph_view" style="height: 600px">
+
+    </div>
+    <script type="application/javascript">
+        window.onload = function () {
+            convert_multiselect($("#graph-form"));
+            handleCheckedInput();
+            add_delete_formset_buttons();
+            let graph_form_div = $(".graph-form-load")
+            var update_graph = $("#update_graph")
+            var form = $("#graph-form")
+            var visualize_graph = $("#visualize_graph")
+            var form_url = form.attr("href")
+            $("#id_graph_type").on("change", function () {
+                $('.element-error').remove()
+                let value = $(this).val()
+                graph_form_div.html("")
+                if (value) {
+                    graph_form_div.load("/graphs/get/form?" + $.param({graph: value}), function () {
+                        convert_multiselect($(".graph-form-load"));
+                        handleCheckedInput();
+                        add_delete_formset_buttons();
+                    })
+                } else {
+                    graph_form_div.html("")
+                }
+            });
+            visualize_graph.on("click", function () {
+                sendFormData(form_url, visualize_graph, update_graph, false)
+            })
+            update_graph.on("click", function () {
+                sendFormData(form_url, visualize_graph, update_graph, true)
+            });
+        }
+
+
+    </script>
+{% endblock %}

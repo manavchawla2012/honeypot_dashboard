@@ -1,0 +1,14 @@
+{% extends "Layouts/base.html" %}
+{% block title %}Subex Honeypot{% endblock %}
+{% load static %}
+{% load compress %}
+{% block javascript %}
+{% endblock %}
+{% block css %}
+{% endblock %}
+{% block html %}
+    {% include "dashboard/components/header.html" %}
+    {% include "dashboard/components/sidebar.html" %}
+    {% block html_inner %}
+    {% endblock %}
+{% endblock %}

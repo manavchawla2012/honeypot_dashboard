@@ -1,0 +1,16 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'stylesheets/dashboard/header.css' %}">
+<nav class="navbar navbar-default navbar-static-top" id="navigation" role="navigation">
+    <div class=" col-md-3 navbar-header">
+        <a href="/"><img src="{% static "images/logo/subex_secure.png" %}" class=""></a>
+    </div>
+    <div class="col-md-6 nav-center">{% if request.user.is_superuser %}<a href="{% url "admin_home" %}">Admin Panel</a>{% else %}Subex Honeypot{% endif %}</div>
+    <div class="col-md-3">
+        <ul class="nav navbar-top-links navbar-right nav-right">
+            <li class="hide"><img src="{% static "images/logo/subex_secure.png" %}" class=""></li>
+            <li class="toggle-btn" onclick="sidebarToggle()">
+                <i class="fa fa-align-justify" style="font-size:36px;"></i>
+            </li>
+        </ul>
+    </div>
+</nav>

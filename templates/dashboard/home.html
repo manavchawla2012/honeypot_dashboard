@@ -1,0 +1,46 @@
+{% extends "Layouts/dashboard.html" %}
+{% block title %} Home {% endblock %}
+{% load common_tag %}
+{% load compress %}
+{% load static %}
+{% block css %}
+    {% compress css %}
+        <link type="text/x-scss" href="{% static 'stylesheets/map/flags.css.scss' %}" rel="stylesheet" media="screen">
+        <link type="text/x-scss" href="{% static 'stylesheets/map/fonts.css.scss' %}" rel="stylesheet" media="screen">
+        <link rel="stylesheet" href="{% static 'stylesheets/map/map.css' %}">
+        <link type="text/x-scss" href="{% static 'stylesheets/dashboard/graphs.scss' %}" rel="stylesheet" media="screen">
+        <link rel="stylesheet" href="{% static "stylesheets/utilities/bootstrap-datepicker3.css" %}"/>
+        <link rel="stylesheet" href="{% static "stylesheets/utilities/jquery.contextMenu.min.css" %}"/>
+    {% endcompress %}
+{% endblock %}
+{% block javascript %}
+    {% compress js %}
+        <script src="{% static "javascript/d3/d3.v3.min.js" %}"></script>
+        <script src="{% static "javascript/d3/queue.v1.min.js" %}"></script>
+        <script src="{% static "javascript/d3/topojson.v1.min.js" %}"></script>
+        <script src="{% static "javascript/amcharts/4/core.js" %}"></script>
+        <script src="{% static "javascript/amcharts/4/charts.js" %}"></script>
+        <script src="{% static "javascript/amcharts/4/animated.js" %}"></script>
+        <script src="{% static "javascript/amcharts/4/themes/dark.js" %}"></script>
+        <script src="{% static 'javascript/dashboard/honeypot_graphs.js' %}"></script>
+        <script src="{% static "javascript/utilities/jquery.contextMenu.min.js" %}"></script>
+        <script src="{% static "javascript/utilities/bootstrap-datepicker.min.js" %}"></script>
+        <script src="{% static "javascript/utilities/jquery.ui.position.js" %}"></script>
+    {% endcompress %}
+{% endblock %}
+{% block html_inner %}
+    <div class="" style="margin-top: 10px">
+        <div class="col-md-3 col-md-offset-8">
+            <div class="input-daterange input-group" id="datepicker">
+                <input type="text" class="input-md form-control" name="start" placeholder="To Date"/>
+                <span class="input-group-addon">to</span>
+                <input type="text" class="input-md form-control" name="end" placeholder="End Date"/>
+            </div>
+        </div>
+        <div class="submit_report col-md-1">
+            <div class="btn btn-primary">Submit</div>
+        </div>
+    </div>
+    {% include "dashboard/components/map.html" %}
+    {% include "dashboard/components/graphs.html" %}
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "Layouts/base.html" %}
+{% load static %}
+{% load common_tag %}
+{% block javascript %}
+    <script src="{% static "javascript/json_viewer/jquery.json-viewer.js" %}"></script>
+    <script src="{% static "javascript/require/require.js" %}"
+            data-main="{% static "javascript/stix/application.js" %}">
+    </script>
+{% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'stylesheets/stix.css' %}" type="text/css"
+          media="screen">
+{% endblock %}
+
+{% block html %}
+    <div id="content-data" data-stix="{{ stix_data }}"></div>
+    <div id="content-wrapper">
+        <div id="canvas-container" class="hidden">
+            <div id="canvas-wrapper" class="col-md-6">
+                <svg id="canvas"></svg>
+                <p>Nodes are draggable! (Node will 'pin' on mouseup)</p>
+                <p>Double-click a pinned node to unpin it!</p>
+                <p>Click the 'Selected Node' area to expand/shrink it.</p>
+            </div>
+            <div id="legend" class="sidebar-stix col-md-3">
+                <h2>Legend</h2>
+                <ul id="legend-content" class="sidebar-stix-content"></ul>
+            </div>
+            <div id="selected" class="sidebar-stix col-md-3">
+                <h2>Selected Node</h2>
+                <div id="selection" class="sidebar-stix-content">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="content-wrapper">
+  <pre class="json-data hidden">
+
+  </pre>
+    </div>
+    <div class="clearfix"></div>
+    <a id="json-download"></a>
+    <script>
+
+    </script>
+{% endblock %}

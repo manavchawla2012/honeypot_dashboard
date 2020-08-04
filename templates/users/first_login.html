@@ -1,0 +1,56 @@
+{% extends "Layouts/base.html" %}
+{% block title %}Setup Honeypot{% endblock %}
+{% load compress %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block css %}
+    {% compress css %}
+        <link rel="stylesheet" href="{% static 'stylesheets/login.css' %}">
+    {% endcompress %}
+{% endblock %}
+{% block html%}
+    <div class="container top-padding" style="margin-top: 100px">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span class="col-md-offset-3 col-md-6 center"><b>User Signup</b></span>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="padding-10 margin-top-10">
+                        <input id="pubkey" type="hidden" value="{{ public_key }}">
+                        <form method="post" id="new-user" action="">{% csrf_token %}
+                            {{ form|crispy }}
+                            <div class="row">
+                                <div class="col-md-offset-3 col-md-6">
+                                    <input type="submit" class="btn btn-md btn-primary btn-block btn-pr" value="Sign Up">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <script src="{% static "javascript/authentication/jsencrypt.js" %}"></script>
+    <script src="{% static "javascript/authentication/encryption.js" %}"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            // Run a quick encryption/decryption when they click.
+            $('#new-user').submit(function () {
+                let new_password_element = $('#id_password1')
+                let confirm_password_element = $('#id_password2')
+                // Encrypt with the public key...
+                var encrypt = new JSEncrypt();
+                let publicKey = $("#pubkey").val();
+                encrypt.setPublicKey(publicKey);
+                if ((new_password_element.val() !== "" && new_password_element.val().length > 0) && (confirm_password_element.val() !== "" && confirm_password_element.val().length > 0)) {
+                    new_password_element.val(encrypt.encrypt(new_password_element.val()))
+                    confirm_password_element.val(encrypt.encrypt(confirm_password_element.val()))
+                }
+            });
+        });
+    </script>
+{% endblock %}

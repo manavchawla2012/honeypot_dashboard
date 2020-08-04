@@ -1,0 +1,84 @@
+{% extends "Layouts/dashboard.html" %}
+{% block title %}Graph Management{% endblock %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block html_inner %}
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <!-- DataTables Example -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <span class="pull-left">
+                        <i class="fa fa-table"></i>
+                        Graph List
+                    </span>
+                    <span class="pull-right">
+                        <a href="{% url "graphs:new" %}"><i class="fa fa-plus"></i><span>Add</span></a>
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered" id="dataTable" width="100%"
+                               cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th class="no-sort" style="width: 65px;">
+                                    <div class="form-check form-check-inline">
+                                        <label class="form-check-label" for="inlineCheckbox1"> S.No.</label>
+                                    </div>
+                                <th><label>Title</label></th>
+                                <th><label>Type</label></th>
+                                <th class="no-sort">Edit</th>
+                                <th class="no-sort">Delete</th>
+                                <th class="no-sort">Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% if object_list %}
+                                {% for graph in object_list %}
+                                    <tr class="odd table-row" data-graph-id='{{ graph.pk }}'>
+                                        <td style="width: 65px;"> {{ forloop.counter }}</td>
+                                        <td> {{ graph.title }}</td>
+                                        <td> {{ graph.chart.name }}</td>
+                                        <td>
+                                            <a href={% url "graphs:edit" graph.pk %}>
+                                                <img src="{% static "images/icons/edit.png" %}">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{% url "graphs:delete" graph.pk %}">
+                                                <img src="{% static "images/icons/destroy.gif" %}">
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <label for="graph_status"></label>
+                                            <input type="checkbox" class="form-check-input graph-status" id="graph_status" {% if graph.is_active %} checked {% endif %}
+                                            data-graph-id="{{ graph.pk }}">
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr class="odd">
+                                    <td colspan='7'>No Data</td>
+                                </tr>
+                            {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $(".graph-status").on("click", function (){
+            let graph_id = $(this).data("graph-id")
+            let status = $(this).is(":checked")
+            $.post("/graphs/inactive/"+graph_id, {status: status}, function (data, status){
+                if (!data.success)
+                {
+                    alert(data.msg)
+                }
+            })
+        })
+    </script>
+{% endblock %}

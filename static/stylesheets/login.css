@@ -1,0 +1,54 @@
+body{
+    background: black;
+}
+
+.wrapper {
+	width: 100%;
+}
+
+.page-wrapper {
+	position: inherit;
+	margin: 0;
+	padding: 0 30px;
+	min-height: 600px;
+}
+
+.login-panel {
+	width: 30%;
+	height: 200px;
+	position: absolute;
+	top:0;
+	bottom: 15%;
+	left: 0;
+	right: 0;
+	margin: auto;
+	color: black;
+}
+
+.login-panel .heading {
+	height: 22%;
+	background-color: #fff;
+}
+.login-panel .content {
+	min-height: 78%;
+	background-color: #abaeb9;
+	padding: 15px;
+}
+
+.errorMessage {
+    color: red;
+    font-weight: bold;
+	margin-top: -15px;
+}
+
+.pull-left {
+	float: left !important;
+}
+
+.pull-right {
+	float: right !important;
+}
+
+img {
+	min-height: 100%;
+}

@@ -1,0 +1,73 @@
+{% extends "Layouts/dashboard.html" %}
+{% load  crispy_forms_tags %}
+{% load static %}
+{% load common_tag %}
+{% block html_inner %}
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="col-md-3 no-padding-force">
+                        {{ stix_form | crispy }}
+                    </div>
+                    <div class="col-md-9">
+
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="content-wrapper">
+        <div class="container-fluid">
+            <!-- DataTables Example -->
+            <div class="card mb-3">
+                <div class="card-header">
+                    <span class="pull-left">
+                        <i class="fa fa-table"></i>
+                        STIX Data
+                    </span>
+                </div>
+                {% if stix_type == 2 %}
+                    {% include "stix/attack_pattern.html" %}
+                {% else %}
+                    <div class="card-body">
+                        <div class="table-responsive center">
+                            <div class="col-md-12" style="height: 30px; background: white">
+                                No Data Found
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+            $(".stix-function").click(function (e) {
+                e.preventDefault();
+                let url = $(this).attr("href")
+                if ($(this).hasClass("download")) {
+                    var newwindow = window.open(url);
+                    newwindow.onblur = function () {
+                        newwindow.close();
+                    };
+                } else {
+                    var newwindow = window.open(url, '1', 'height=600, width=2000, top=300,left=500');
+                    newwindow.focus();
+                }
+
+
+            });
+            $("[name='stix_type']").on("change", function () {
+                let value = $(this).val()
+                window.location.href = "/stix/visualization?stix_type=" + value
+            })
+
+        });
+    </script>
+{% endblock %}

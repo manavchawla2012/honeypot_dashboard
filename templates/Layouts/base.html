@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" data-theme='dark'>
+<head>
+    {% load static %}
+    {% load compress %}
+    <meta charset="UTF-8">
+    <title>{% block title %}Subex Honeypot{% endblock %}</title>
+    <link rel="icon" href="{% static 'images/logo/favicon.png' %}" type="image/gif" sizes="16x16">
+    {% compress js %}
+        <script src="{% static "javascript/bootstrap/jquery.min.js" %}"></script>
+        <script src="{% static "javascript/bootstrap/bootstrap.min.js" %}"></script>
+        <script crossorigin src="{% static "javascript/react/react.production.min.js" %}"></script>
+        <script crossorigin src="{% static "javascript/react/react-dom.production.min.js" %}"></script>
+        <script src="{% static "javascript/react/babel.min.js" %}"></script>
+    {% endcompress %}
+    <script src="https://kit.fontawesome.com/8bc4c89a64.js" crossorigin="anonymous"></script>
+    {% compress css %}
+        <link rel="stylesheet" href="{% static 'stylesheets/bootstrap/bootstrap.min.css' %}" type="text/css"
+              media="screen">
+        <link rel="stylesheet" href="{% static 'stylesheets/application/sb-admin-2.css' %}" type="text/css"
+              media="screen">
+        <link rel="stylesheet" href="{% static 'stylesheets/base.css' %}" type="text/css" media="screen">
+    {% endcompress %}
+
+
+    {% block css %}
+    {% endblock %}
+    {% block javascript %}
+    {% endblock %}
+</head>
+<body class="bg-dark">
+{% block html %}
+{% endblock %}
+<div class="clearfix"></div>
+<footer class="footer">
+    <p>Copyright 2020.Subex Secure - Honeypot</p>
+</footer>
+</body>
+<script>
+    var data_map_color = 'green';
+    prev_theme = sessionStorage.getItem('prev_theme');
+    if (prev_theme) {
+        document.documentElement.setAttribute('data-theme', prev_theme);
+        data_map_color = 'gray';
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light');
+    }
+    document.getElementById('toggle').innerHTML = document.documentElement.getAttribute('data-theme');
+
+
+</script>
+</html>

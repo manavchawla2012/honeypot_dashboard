@@ -1,0 +1,115 @@
+{% csrf_token %}
+<div class="clearfix"></div>
+<div id="graphs" style="margin: 10px"></div>
+
+<script type="application/javascript">
+    let graph_data
+    let csrf_token = $("[name='csrfmiddlewaretoken']").val();
+    load_graphs(null, null)
+    $('.input-daterange').datepicker({
+        clearBtn: true,
+        calendarWeeks: true,
+        autoclose: true,
+        todayHighlight: true,
+        startDate: "-5m",
+        endDate: "-1d",
+        todayBtn: "linked",
+        orientation: "top left"
+
+    });
+    $(".submit_report").on("click", function () {
+        $("#graphs").html("");
+        let to_date = $("input[name=start]").val();
+        let from_date = $("input[name=end]").val();
+        if (to_date === "" && from_date === "") {
+            alert("Choose Correct date")
+        } else {
+            load_graphs(to_date, from_date)
+        }
+
+    });
+
+    function load_graphs(to_date, from_date) {
+        get_graph_details()
+        if (graph_data) {
+            get_graphs(to_date, from_date)
+        }
+    }
+
+    function get_graph_details() {
+        $.ajax({
+            url: "/graphs/list",
+            type: "post",
+            dataType: "json",
+            cache: true,
+            headers: {"X-CSRFToken": csrftoken},
+            async: false,
+            success: function (data) {
+                if (data.success) {
+                    graph_data = data["graphs_details"]
+                } else {
+                    alert("No Graphs found")
+                }
+            },
+            error: function (data) {
+                alert("Refresh Page. Unable to fetch list")
+            }
+
+        });
+
+    }
+
+    function get_graphs(to_date = "", from_date = "") {
+        let graphs_div = $("#graphs");
+        graph_data.forEach(function (graph, i) {
+            let title = graph.title;
+            let graph_type = graph["chart_id"];
+            let query_id = graph.id
+            let chart_div = "chart" + query_id.toString();
+            let url = "/graphs/load_graphs"
+            if (graph_type === 4) {
+                div_class = "col-md-12"
+            } else {
+                div_class = "col-md-6"
+            }
+
+
+            graphs_div.append("<div class='graph_div " + div_class + "' data-id='" + query_id + "'><div class='heading'>"  + title + "</div><div id='" + chart_div + "' class='graph' ></div></div>");
+            draw_context_menu();
+            get_graph_data(graph_type, title, query_id, url, to_date, from_date)
+        })
+        graphs_div.append("<div class='clearfix'></div>")
+    }
+
+    function draw_context_menu() {
+        $('#graphs').contextMenu({
+            selector: '.graph_div',
+            callback: function (key, options) {
+                var id = options.$trigger.data("id")
+                if (key === "quit") {
+                    //$(this).hide()
+                } else {
+                    win = window.open("/graphs/" + key + "/" + id, '_blank')
+                    if (win) {
+                        win.focus()
+                    } else {
+                        alert("Allow Popup for website")
+                    }
+                }
+            },
+            items: {
+                "edit": {
+                    name: "Edit", icon: function () {
+                        return "fa fa-pencil-square-o"
+                    }
+                },
+                "sep1": "---------",
+                "quit": {
+                    name: "Quit", icon: function ($element, key, item) {
+                        return 'fa fa-times';
+                    }
+                }
+            }
+        });
+    };
+</script>

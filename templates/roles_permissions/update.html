@@ -1,0 +1,36 @@
+{% extends "Layouts/dashboard.html" %}
+{% block title %}Update Role{% endblock %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block html_inner %}
+    <div class="container pull-left top-padding">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span>Edit User</span>
+                        <span style="float: right;"> <a href="{% url "roles:view" %}"><i
+                                class="fa fa-chevron-left fa-fw"></i>Back</a> </span>
+                    </div>
+                    <div class="padding-10 margin-top-10">
+                        <form method="post" id="new-user" action="">{% csrf_token %}
+                            {{ form|crispy }}
+                            <div class="row">
+                                <div class="col-md-3 col-md-offset-3">
+                                    <input type="submit" class="btn btn-md btn-primary btn-block btn-pr" value="Edit">
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="{% url "roles:view" %}" class="btn btn-md btn-block btn-primary btn-pr">Cancel</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}
+
+
+

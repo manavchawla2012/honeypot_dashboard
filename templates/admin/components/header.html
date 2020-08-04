@@ -1,0 +1,13 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'stylesheets/dashboard/header.css' %}">
+<nav class="navbar navbar-default navbar-static-top" id="navigation" role="navigation">
+    <div class="container-fluid">
+        <div class=" col-md-3 navbar-header">
+            <a href="/"><img src="{% static "images/logo/subex_secure.png" %}" class=""></a>
+        </div>
+        <div class="col-md-6 nav-center">Admin Pannel</div>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="{% url "admin_logout" %}">Logout</a></li>
+        </ul>
+    </div>
+</nav>

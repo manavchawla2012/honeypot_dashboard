@@ -1,0 +1,105 @@
+{% load static %}
+{% load sidebar_tag %}
+<link rel="stylesheet" href="{% static 'stylesheets/dashboard/sidebar.css' %}">
+<div id="sidebar" class="sidebar sidebar-close">
+    <span class="side-header">Welcome {{ request.user.first_name }}</span>
+    <ul class="navbar-top-links navbar-right nav-right dropdown-menu" role="menu" aria-labelledby="dropdownMenu"
+        style="display: block; position: static; margin-bottom: 5px; *width: 180px;">
+        <li>
+            <div class="graph_filter">
+                <span>TIME PERIOD:</span>
+                <select id="time_period" name="time_period" class="text-center" value="<%= @time_period %>">
+                    <option value="1 HOUR">Last hour</option>
+                    <option value="1 DAY">Last day</option>
+                    <option value="7 DAY">Last week</option>
+                    <option value="1 MONTH">Last month</option>
+                </select>
+            </div>
+        </li>
+        <li>
+            <div class='ip-hide'>
+                <div class="btn-group" id="toggle_event_editing">
+                    <button type="button" id='Dark' class="btn btn-default unlocked_inactive" style="font-size:12px;">
+                        Dark
+                    </button>
+                    <button type="button" id="Light" class="btn btn-info locked_active" style="font-size:12px;">Light
+                    </button>
+                </div>
+                <span id='toggle'>Hide Public IPs</span>
+            </div>
+            <script>
+                jQuery('#Dark').click(function () {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    sessionStorage.setItem('prev_theme', 'dark');
+                    document.getElementById('toggle').innerHTML = 'dark';
+                    location.reload()
+                });
+
+                jQuery('#Light').click(function () {
+                    document.documentElement.setAttribute('data-theme', 'light');
+                    sessionStorage.setItem('prev_theme', 'light');
+                    document.getElementById('toggle').innerHTML = 'light';
+                    location.reload()
+                });
+            </script>
+            <div class='ip-hide'>
+                <div class="btn-group" id="toggle_event_editing" data-value=1>
+                    {% if True %}
+                        <button type="button" class="btn btn-default unlocked_inactive" style="font-size:12px;">OFF
+                        </button>
+                        <button type="button" class="btn btn-info locked_active" style="font-size:12px;">ON</button>
+                    {% else %}
+                        <button type="button" class="btn btn-info locked_active" style="font-size:12px;">OFF</button>
+                        <button type="button" class="btn btn-default unlocked_inactive" style="font-size:12px;">ON
+                        </button>
+                    {% endif %}
+                </div>
+                <span id='switch_status'>Hide Public IPs</span>
+            </div>
+            <script>
+                jQuery('#toggle_event_editing button').click(function () {
+                    /* code to do when unlocking */
+                    jQuery.post('/update_hide_ip', {value: jQuery('#toggle_event_editing').data('value')}, function (data, status, xhr) {
+                        if (data.errors.length)
+                            alert('There is some issue in updating value')
+                        else
+                            window.location.reload();
+                        jQuery('#toggle_event_editing button').eq(0).toggleClass('locked_inactive locked_active btn-default btn-info');
+                        jQuery('#toggle_event_editing button').eq(1).toggleClass('unlocked_inactive unlocked_active btn-info btn-default');
+                    });
+
+                    /* reverse locking status */
+
+                });
+            </script>
+        </li>
+        {% get_sidebar_element request "User Management" "view_users" "view_users" "fa-user-o" %}
+        {% get_sidebar_element request "Role Management" "roles:view" "view_roles" "fa-child" %}
+        {% get_sidebar_element request "Graph Management" "graphs:list" "view_internalmanagergraphs" "fa-chart-bar" %}
+        {% get_sidebar_element request "STIX" "stix:visualization" "view_internalmanagergraphs" "fa-chart-bar" %}
+        {% get_sidebar_element request "Admin Pannel" "admin_home" "view_admin" "fa-user-shield" %}
+        <li>
+            <a href="
+
+                    {% if request.user.is_superuser %}{% url "admin_logout" %} {% else %} {% url "user_logout" %} {% endif %}">
+                <i class="fa fa-sign-in fa-fw"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    function sidebarToggle() {
+        var sidebar = jQuery("#sidebar")
+        if (sidebar.hasClass('sidebar-close')) {
+            jQuery(sidebar).addClass('sidebar-open');
+            jQuery(sidebar).removeClass('sidebar-close');
+        } else {
+            jQuery(sidebar).addClass('sidebar-close');
+            jQuery(sidebar).removeClass('sidebar-open');
+        }
+    }
+
+
+</script>

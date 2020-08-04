@@ -1,0 +1,17 @@
+django==3.0.8
+mysqlclient==2.0.1
+django-environ
+uwsgi==2.0.19.1
+
+geoip2~=4.0.2
+environ~=1.0
+
+django_compressor>=2.4
+django-libsass==0.8
+pycryptodome==3.9.8
+
+django-crispy-forms==1.9.2
+pandas==1.1.0
+stix2==1.2.1
+stix2-patterns==1.2.1
+stix2-viz==0.2.0

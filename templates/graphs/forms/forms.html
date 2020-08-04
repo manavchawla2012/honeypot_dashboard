@@ -1,0 +1,21 @@
+{% load crispy_forms_tags %}
+{% if not formset %}
+    {{ form | crispy }}
+{% else %}
+    {{ form.management_form }}
+        {% for for in form %}
+            <div class="form-row spacer" id="form-{{ forloop.counter }}">
+                {{ for | crispy }}
+                {% if forloop.last %}
+                    <div class="input-group-append">
+                        <button class="btn btn-success add-form-row">+</button>
+                    </div>
+                {% else %}
+                    <div class="input-group-append">
+                        <button class="btn btn-danger remove-form-row"><span class="glyphicon glyphicon-minus"
+                                                                             aria-hidden="true"></span></button>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+{% endif %}

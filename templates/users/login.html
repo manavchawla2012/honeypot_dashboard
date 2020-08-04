@@ -1,0 +1,25 @@
+{% extends "Layouts/base.html" %}
+{% block title %}Login{% endblock %}
+{% load static %}
+{% load compress %}
+{% block css %}
+    {% compress css %}
+        <link rel="stylesheet" href="{% static 'stylesheets/login.css' %}">
+    {% endcompress %}
+{% endblock %}
+{% block javascript %}
+    <script src="{% static "javascript/authentication/jsencrypt.js" %}"></script>
+    <script src="{% static "javascript/authentication/encryption.js" %}"></script>
+    <script type="text/babel" src="{% static 'javascript/authentication/login.jsx' %}" data-type="module"></script>
+{% endblock %}
+{% block html %}
+    {% if messages %}
+        {% for message in messages %}
+            <input value="{{ message }}" hidden name="errorMsg">
+        {% endfor %}
+    {% endif %}
+    <input value="{{ rsa_key }}" hidden name="rsa_key">
+    {% csrf_token %}
+    <div id='root' style=""></div>
+    <div class="clearfix"></div>
+{% endblock %}

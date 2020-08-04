@@ -1,0 +1,78 @@
+{% load common_tag %}
+<div class="card-body">
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered" id="dataTable" width="100%"
+               cellspacing="0">
+            <thead>
+            <tr>
+                <th class="no-sort" style="width: 65px;">
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label" for="inlineCheckbox1"> S.No.</label>
+                    </div>
+                <th><label>Attack Name</label></th>
+                <th><label>Source IP(Country)</label></th>
+                <th><label>Destination IP(Country)</label></th>
+                <th><label>Timestamp</label></th>
+                <th class="no-sort" colspan="3">Operations</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if object_list %}
+                {% for stix in object_list %}
+                    <tr class="odd table-row" data-graph-id='{{ stix.pk }}'>
+                        <td style="width: 65px;"> {{ forloop.counter }}</td>
+                        <td> {{ stix.sig.attack_pattern_type.name }}({{ stix.msg }})</td>
+                        <td> {{ stix.src }}({{ stix.src_country }})</td>
+                        <td> {{ stix.dst }}({{ stix.dst_country }})</td>
+                        <td> {{ stix.timestamp }}</td>
+                        <td>
+                            <a href="{% url "stix:visualize" stix_type stix.pk %}" target="_blank"
+                               data-toggle="tooltip" class="stix-function"
+                               data-placement="top" title="Visualize STIX!">
+                                <i class="fa fa-pie-chart">
+                                </i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url "stix:visualize" stix_type stix.pk %}?download=True"
+                               target="_blank" data-toggle="tooltip" class="stix-function download"
+                               data-placement="top" title="Download JSON!">
+                                <i class="fa fa-download"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url "stix:visualize" stix_type stix.pk %}?json=True"
+                               target="_blank" data-toggle="tooltip" class="stix-function"
+                               data-placement="top" title="View Json!">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr class="odd">
+                    <td colspan='7'>No Data</td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+    {% if object_list %}
+        <div class="col-md-12 center">
+            <ul class="pagination pagination-sm">
+                {% if page_obj.has_previous %}
+                    <li class="page-item"><a class="page-link"
+                                             href="?page={{ page_obj.previous_page_number }}&stix_type={{ stix_type }}">&laquo;</a>
+                    </li>
+                {% endif %}
+                {% get_pages page_obj.number page_obj.paginator.num_pages stix_type %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item"><a class="page-link"
+                                             href="?page={{ page_obj.next_page_number }}&stix_type={{ stix_type }}">&raquo;</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+</div>

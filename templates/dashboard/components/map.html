@@ -1,0 +1,132 @@
+{% load static %}
+{% load compress %}
+
+<div class="col-md-12 margin-top-10 padding-left-10 padding-right-10" style="">
+    <div style="height: 100%">
+        <div id="content" style="opacity: 1; margin-bottom: 30px" data-map-color="gray" data-interval-value="180">
+            <div id="toggleScrollTab" class="data box">
+                <i class="fa fa-th-large" style="font-size:24px;color: #fff;"></i>
+            </div>
+            <form>
+                {% csrf_token %}
+            </form>
+            <div class="data box top-left gray-background" id="scroll-tabs">
+                <span class=""><a href="#navigation">Top</a></span>
+                <span class=""><a href="#content">Map</a></span>
+                <span class=""><a href="#graph">Graph</a></span>
+                <span><a href="#" onclick="scrollBottom()">Bottom</a></span>
+            </div>
+            <div class="data box bottom-left gray-bg">
+                <div class="table-header">
+                    <h1><span></span> Top-10 Attacks</h1>
+                </div>
+                <div class="table-container" id="right-table-container">
+                    <table id="left-data">
+                        <colgroup>
+                            <col class="bar-col" span="1"/>
+                            <col class="total-count" span="1"/>
+                            <col class="data-label-small" span="1"/>
+                            <col class="data-label" span="1"/>
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th></th>
+                            <th><span class="icon-number"></span></th>
+                            <th class="attack">Attack Type</th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="data box bottom-right gray-bg">
+                <div class="table-header">
+                    <h1><span>Top-10  Target</span></h1>
+                </div>
+                <div class="table-container" id="right-table-container">
+                    <table id="right-data">
+                        <colgroup>
+                            <col class="bar-col" span="1"/>
+                            <col class="total-count" span="1"/>
+                            <col class="data-label-small" span="1"/>
+                            <col class="data-label" span="1"/>
+                        </colgroup>
+                        <tbody>
+                        <tr>
+                            <th></th>
+                            <th><span class="icon-number"></span></th>
+                            <th class="flag-col"><span class="icon-country"></span></th>
+                            <th class="country">Country</th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="box gray-bg" id="console">
+                <div class="table-header">
+                    <h1 class="table-header"><span> Attacks</span></h1>
+                </div>
+                <div id="console-table-container" style="display: block;">
+                    <table id="events-data">
+                        <colgroup class="second-level">
+                            <col class="timestamp-col" span="1"/>
+                            <col class="attacker-org-col left-border" span="1"/>
+                            <col class="location-col" span="1"/>
+                            <col class="attacker-ip-col" span="1"/>
+                            <col class="location-col left-border" span="1"/>
+                            <col class="service-col left-border" span="1"/>
+                            <col class="port-col" span="1"/>
+                        </colgroup>
+                        <tbody>
+                        <tr class="second-level">
+                            <th>Timestamp</th>
+                            <th>Attacker</th>
+                            <th>Source IP</th>
+                            <th>Port</th>
+                            <th>Target</th>
+                            <th>Destination IP</th>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="info-controls" style="display:block; margin-top: 33px;">
+                <div data-paused="false" class="controls" id="play_pause">
+        <span class="play-pause">
+
+        </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% compress js %}
+    <script src="{% static "javascript/dashboard/map.js" %}"></script>
+    <script type="text/javascript">
+        var setMapDiv = function () {
+            $('#content').css({
+                'width': $('#svg-container').width() + 'px',
+                'height': $('#svg-container').height() + 'px'
+            });
+        }
+        setMapDiv();
+        var togglePlayPause = function (current_button) {
+            if (current_button === 'icon_pause') {
+                document.getElementById('icon_pause').style.display = "none";
+                document.getElementById('icon_play').style.display = "";
+            } else {
+                document.getElementById('icon_pause').style.display = "";
+                document.getElementById('icon_play').style.display = "none";
+            }
+        }
+        var scrollBottom = function () {
+            $("html, body").animate({scrollTop: document.body.scrollHeight}, "slow");
+        }
+        $(document).ready(function () {
+            $("#toggleScrollTab").click(function () {
+                $("#scroll-tabs").toggle();
+            });
+        });
+
+    </script>
+{% endcompress %}

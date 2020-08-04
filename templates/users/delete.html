@@ -1,0 +1,9 @@
+{% extends "Layouts/base.html" %}
+{% block title %}Delete User{% endblock %}
+{% block html %}
+    <form method="post">{% csrf_token %}
+        <p>Are you sure you want to delete "{{ object }}"?</p>
+        <input type="submit" value="Confirm" class="btn btn-success">
+        <a href="{% url "view_users" %}" class="btn btn-danger">Cancel</a>
+    </form>
+{% endblock %}

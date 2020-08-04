@@ -1,0 +1,56 @@
+{% extends "Layouts/dashboard.html" %}
+{% block title %}Update User{% endblock %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block html_inner %}
+    <div class="container pull-left top-padding">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <span>Edit User</span>
+                        <span style="float: right;"> <a href="{% url "view_users" %}"><i
+                                class="fa fa-chevron-left fa-fw"></i>Back</a> </span>
+                    </div>
+                    <div class="padding-10 margin-top-10">
+                        <input id="pubkey" type="hidden" value="{{ public_key }}">
+                        <form method="post" id="new-user" action="">{% csrf_token %}
+                            {{ form|crispy }}
+                            <div class="row">
+                                <div class="col-md-3 col-md-offset-3">
+                                    <input type="submit" class="btn btn-md btn-primary btn-block btn-pr" value="Edit">
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="{% url "view_users" %}" class="btn btn-md btn-block btn-primary btn-pr">Cancel</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <script src="{% static "javascript/authentication/jsencrypt.js" %}"></script>
+    <script src="{% static "javascript/authentication/encryption.js" %}"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            // Run a quick encryption/decryption when they click.
+            $('#new-user').submit(function () {
+                let new_password_element = $('#id_password1')
+                let confirm_password_element = $('#id_password2')
+                // Encrypt with the public key...
+                var encrypt = new JSEncrypt();
+                let publicKey = $("#pubkey").val();
+                encrypt.setPublicKey(publicKey);
+                new_password_element.val(encrypt.encrypt(new_password_element.val()))
+                confirm_password_element.val(encrypt.encrypt(confirm_password_element.val()))
+
+            });
+        });
+    </script>
+{% endblock %}
+
+
+
