@@ -2,11 +2,11 @@
 
 # Django-related settings
 # the base directory (full path)
-chdir           =  /home/onni/honeypot_dashboard
+chdir           =  $dashboard_path
 # Django's wsgi file
-wsgi-file          = /home/onni/honeypot_dashboard/honeypot_dashboard/wsgi.py
+wsgi-file          = $dashboard_path/honeypot_dashboard/wsgi.py
 # the virtualenv (full path)
-home = /home/onni/honeypot_dashboard/venv
+home = $dashboard_path/venv
 
 # process-related settings
 # master
@@ -28,4 +28,4 @@ enable-threads  = true
 
 py-autoreload = 1
 
-touch-reload = /home/onni/honeypot_dashboard/honeypot_dashboard/settings.py
+touch-reload = $dashboard_path/honeypot_dashboard/settings.py
