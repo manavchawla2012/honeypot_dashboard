@@ -2,7 +2,6 @@ venv
 .env
 *__pycache__
 .idea/
-subex_api_uwsgi.ini
 Pipfile
 Pipfile.lock
 static/CACHE/
