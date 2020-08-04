@@ -58,5 +58,5 @@ def create_new_user_if_not_present():
     from users.models import Users
     user = Users.objects.all()
     if not user:
-        Users.objects.create_user(name="subexuser", email="test@subex.com", first_name="SubexUser",
-                                  password="Subex@123", is_superuser=True)
+        Users.objects.create_user(name="admin", email="admin@gmail.com", first_name="Admin",
+                                  password="Admin@123", is_superuser=True)
