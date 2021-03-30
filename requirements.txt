@@ -1,4 +1,4 @@
-django==3.0.8
+django==3.0.12
 mysqlclient==2.0.1
 django-environ
 uwsgi==2.0.19.1
